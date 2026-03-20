@@ -1,0 +1,40 @@
+from flask import Flask, request, jsonify
+import pickle
+import numpy as np
+
+app = Flask(__name__)
+
+# Dummy model (replace later with trained model)
+def predict_disease(symptoms):
+    if "fever" in symptoms and "cough" in symptoms:
+        return "Flu"
+    elif "headache" in symptoms:
+        return "Migraine"
+    else:
+        return "Common Cold"
+
+# Medicine suggestions
+def get_medicine(disease):
+    data = {
+        "Flu": ["Paracetamol", "Rest", "Fluids"],
+        "Migraine": ["Ibuprofen", "Sleep"],
+        "Common Cold": ["Vitamin C", "Steam"]
+    }
+    return data.get(disease, [])
+
+@app.route('/predict', methods=['POST'])
+def predict():
+    data = request.json
+    symptoms = data.get("symptoms", [])
+    
+    disease = predict_disease(symptoms)
+    medicines = get_medicine(disease)
+
+    return jsonify({
+        "disease": disease,
+        "medicines": medicines,
+        "confidence": "85%"
+    })
+
+if __name__ == '__main__':
+    app.run(debug=True)
