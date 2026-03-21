@@ -65,4 +65,4 @@ Helps users find nearby pharmacies and suggests alternative medicines if unavail
 ---
 
 ## 👩‍💻 Author
-Drashti Thakur
+
